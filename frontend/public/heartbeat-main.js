@@ -12,7 +12,7 @@ const MIN_DISTANCE = 10;
 
 // Simple rPPG implementation in JavaScript
 // - Code could be improved given better documentation available for openwindow.cv.js
-class Heartbeat {
+var Heartbeat = class Heartbeat {
   constructor(webcamId, canvasId, classifierPath, targetFps, windowSize, rppgInterval) {
     this.webcamId = webcamId;
     this.canvasId = canvasId,
@@ -496,4 +496,4 @@ class Heartbeat {
 }
 
 
-window.Heartbeat = Heartbeat
+// window.Heartbeat = Heartbeat

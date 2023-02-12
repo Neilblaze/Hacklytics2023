@@ -6,15 +6,15 @@ import { getFirestore, collection, addDoc } from "firebase/firestore";
 
 
 const OPENCV_URI = "https://docs.opencv.org/master/opencv.js";
-const HAARCASCADE_URI = "haarcascade_frontalface_alt.xml"
+const HAARCASCADE_URI = "/haarcascade_frontalface_alt.xml"
 
 
 function HeartBeatScreen(props) {
   const loc = useLocation();
   const history = useHistory();
-  useScript("https://prouast.github.io/heartbeat-js/heartbeat.js")
-  useScript("https://docs.opencv.org/master/opencv.js")
-  useScript("./heartbeat-main.js")
+  // useScript("https://prouast.github.io/heartbeat-js/heartbeat.js")
+  // useScript("/opencv.js")
+  useScript("/heartbeat-main.js")
 
 
 
@@ -44,6 +44,7 @@ function HeartBeatScreen(props) {
   const handleFunc = (val) => {
     setTimeout(() => {
       let demo = new window.Heartbeat("webcam", "canvas", HAARCASCADE_URI, 30, 6, 250);
+
       var ready = loadOpenCv(OPENCV_URI);
       ready.then(function () {
         demo.init();
@@ -78,8 +79,14 @@ function HeartBeatScreen(props) {
                     <Heartbeat heartbeatFunction={handleFunc} heartbeatInterval={1000} />
                 </div> */}
 
-        <div id="heartbeat-container">
 
+        <div className='text-gray-400 mt-7 text-sm'>
+          Please look into the camera, and avoid any sudden movement for best results. 🙂
+        </div>
+
+        <video hidden id="webcam" width="640" height="480"></video>
+        <canvas id="canvas" width="640" className='w-full my-10' height="480"></canvas>
+        <div id="heartbeat-container">
         </div>
       </div>
 
@@ -93,61 +100,61 @@ export default HeartBeatScreen;
 
 
 
-  // Hook
-  function useScript(src) {
-    // Keep track of script status ("idle", "loading", "ready", "error")
-    const [status, setStatus] = useState(src ? "loading" : "idle");
-    useEffect(
-      () => {
-        // Allow falsy src value if waiting on other data needed for
-        // constructing the script URL passed to this hook.
-        if (!src) {
-          setStatus("idle");
-          return;
-        }
-        // Fetch existing script element by src
-        // It may have been added by another intance of this hook
-        let script = document.querySelector(`script[src="${src}"]`);
-        if (!script) {
-          // Create script
-          script = document.createElement("script");
-          script.src = src;
-          script.async = true;
-          script.setAttribute("data-status", "loading");
-          // Add script to document body
-          document.body.appendChild(script);
-          // Store status in attribute on script
-          // This can be read by other instances of this hook
-          const setAttributeFromEvent = (event) => {
-            script.setAttribute(
-              "data-status",
-              event.type === "load" ? "ready" : "error"
-            );
-          };
-          script.addEventListener("load", setAttributeFromEvent);
-          script.addEventListener("error", setAttributeFromEvent);
-        } else {
-          // Grab existing script status from attribute and set to state.
-          setStatus(script.getAttribute("data-status"));
-        }
-        // Script event handler to update status in state
-        // Note: Even if the script already exists we still need to add
-        // event handlers to update the state for *this* hook instance.
-        const setStateFromEvent = (event) => {
-          setStatus(event.type === "load" ? "ready" : "error");
+// Hook
+function useScript(src) {
+  // Keep track of script status ("idle", "loading", "ready", "error")
+  const [status, setStatus] = useState(src ? "loading" : "idle");
+  useEffect(
+    () => {
+      // Allow falsy src value if waiting on other data needed for
+      // constructing the script URL passed to this hook.
+      if (!src) {
+        setStatus("idle");
+        return;
+      }
+      // Fetch existing script element by src
+      // It may have been added by another intance of this hook
+      let script = document.querySelector(`script[src="${src}"]`);
+      if (!script) {
+        // Create script
+        script = document.createElement("script");
+        script.src = src;
+        script.async = true;
+        script.setAttribute("data-status", "loading");
+        // Add script to document body
+        document.body.appendChild(script);
+        // Store status in attribute on script
+        // This can be read by other instances of this hook
+        const setAttributeFromEvent = (event) => {
+          script.setAttribute(
+            "data-status",
+            event.type === "load" ? "ready" : "error"
+          );
         };
-        // Add event listeners
-        script.addEventListener("load", setStateFromEvent);
-        script.addEventListener("error", setStateFromEvent);
-        // Remove event listeners on cleanup
-        return () => {
-          if (script) {
-            script.removeEventListener("load", setStateFromEvent);
-            script.removeEventListener("error", setStateFromEvent);
-          }
-        };
-      },
-      [src] // Only re-run effect if script src changes
-    );
-    return status;
-  }
+        script.addEventListener("load", setAttributeFromEvent);
+        script.addEventListener("error", setAttributeFromEvent);
+      } else {
+        // Grab existing script status from attribute and set to state.
+        setStatus(script.getAttribute("data-status"));
+      }
+      // Script event handler to update status in state
+      // Note: Even if the script already exists we still need to add
+      // event handlers to update the state for *this* hook instance.
+      const setStateFromEvent = (event) => {
+        setStatus(event.type === "load" ? "ready" : "error");
+      };
+      // Add event listeners
+      script.addEventListener("load", setStateFromEvent);
+      script.addEventListener("error", setStateFromEvent);
+      // Remove event listeners on cleanup
+      return () => {
+        if (script) {
+          script.removeEventListener("load", setStateFromEvent);
+          script.removeEventListener("error", setStateFromEvent);
+        }
+      };
+    },
+    [src] // Only re-run effect if script src changes
+  );
+  return status;
+}
