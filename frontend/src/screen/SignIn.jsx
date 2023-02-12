@@ -75,9 +75,9 @@ function SignIn() {
 
     return (
         <Container>
-            <div className="bg-gray-100 h-full flex flex-col place-items-center place-content-center">
+            <div className="card-bg h-full flex flex-col place-items-center place-content-center">
             <img src={SignInImage} alt="" className="mb-4"/>
-            <h1 className="text-6xl font-bold text-center w-1/2 mb-8" style={{ color: '#30429E' }}>Welcome Back!</h1>
+            <h1 className="text-4xl font-bold text-center w-1/2 mb-8 text-gray-200">Welcome Back!</h1>
             <div className="flex flex-col justify-center items-center z-40" >
                 <form action="" className="flex flex-col justify-center" onSubmit={handleLogin}>
                 <div className="flex flex-row place-items-center place-content-center mb-4 px-4 py-2 rounded-lg text-lg text-gray-500 bg-white">
@@ -92,17 +92,17 @@ function SignIn() {
                 </svg>
                 <input className="focus:bg-white" style={{ width: '280px' }} type="password" name="password" id="" placeholder="Password" />
                 </div>   
-                <p className="text-lg text-blue-800 mb-4 text-center" style={{color:'#rgba(48, 66, 158, 0.9)'}}>Forgot password?</p>
-                <button type="submit"  className="bg-blue-700 text-2xl text-white rounded-xl p-4 w-full">Sign in</button>
+                <p className="text-lg text-gray-400 mb-4 text-center">Forgot password?</p>
+                <button type="submit"  className="bg-gray-600 text-xl text-white rounded-xl p-4 w-full">Sign in</button>
                 </form>
                 <div className="mb-8 flex flex-col rounded-md justify-center items-center" style={{ fontSize: '18px' }}>
-                    <p className="text-xl text-blue-800 mt-8"> Sign in with </p>
+                    <p className="text-lg text-gray-400 mt-8"> Sign in with </p>
                     <div className="flex flex-row justify-between items-center mt-4">
                         <button onClick={() => signInWithFacebook()}><img src={FacebookLogo} alt="sign in with facebook" className="w-12 h-12" /></button>
                         <button onClick={() => signInWithGoogle()}> <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="sign in with google" className="w-12 h-12 ml-6" /></button>
                     </div>
                 </div>
-                <a href="/signup" className="text-xl text-blue-800">Don't have an account? <span className="font-base text-blue-800 underline">Sign up</span></a>
+                <a href="/signup" className="text-lg text-gray-400">Don't have an account? <span className="font-base text-gray-400 underline">Sign up</span></a>
                 </div>
             </div>
         </Container >

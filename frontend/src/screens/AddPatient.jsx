@@ -1,6 +1,5 @@
 import React from 'react'
 import Container from '../components/Container'
-import ScrollArea from 'react-scrollbar'
 import bell from '../images/bell.png'
 import {useHistory, useLocation} from 'react-router-dom';
 import { getFirestore, collection, addDoc } from "firebase/firestore";
@@ -40,16 +39,10 @@ function AddPatient(props) {
         <Container>
             <div className="absolute w-full h-full bg-bggray z-10"></div>
 
-            <div className="content absolute top-0 left-0 w-full h-full z-30 font-lato ">
+            <div className="content absolute top-0 left-0 w-full h-full z-30  ">
 
                 <div className="w-full px-12 mt-16 flex flex-col justify-center items-center ">
-                    <ScrollArea speed={0.4}
-                        className="w-full"
-                        contentClassName="content"
-                        style={{ height: '780px' }}
-                        horizontal={false}
-                        vertical={true}
-                    >
+                 
                         <div className="">
                             <div className="   ">
 
@@ -81,9 +74,6 @@ function AddPatient(props) {
                             </div>
 
                         </div>
-
-                    </ScrollArea>
-
                 </div>
             </div>
         </Container>

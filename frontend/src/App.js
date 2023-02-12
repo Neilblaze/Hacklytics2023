@@ -12,6 +12,7 @@ import SpeechToText from "./components/SpeechToText";
 import PatientDiagnosisScreen from "./screens/PatientDiagnosisScreen";
 import AddPatient from "./screens/AddPatient";
 import HomePageScreen from "./screens/HomePageScreen";
+import HeartBeatScreen from "./screens/HeartBeat";
 
 function App() {
   const auth = getAuth();
@@ -24,6 +25,13 @@ function App() {
           <Switch>
             <Route exact path='/'>
               {user ? <div><p> {`signed in as ${user.email}`}</p><button className="bg-blue-700 text-2xl text-white rounded-xl p-4 w-full mt-4" onClick={() => { signOut(auth); alert("refresh page") }}>Sign Out</button></div> : <p>No user found. go to /signup</p>}
+            </Route>
+
+
+            <Route exact path='/heartbeat'>
+              <div className="flex justify-center bg-black">
+                <HeartBeatScreen />
+              </div>
             </Route>
 
 

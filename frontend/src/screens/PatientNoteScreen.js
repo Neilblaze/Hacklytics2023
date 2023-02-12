@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import Container from '../components/Container'
-import ScrollArea from 'react-scrollbar'
 import bellwhite from '../images/bellwhite.png'
 import { useHistory, useLocation } from 'react-router-dom'
-import { create } from 'ipfs-http-client'
 import PatientNotes from '../components/PatientNotes'
 import SpeechToText from '../components/SpeechToText'
 import axios from 'axios'
 
 import { doc, getDoc, collection, query, where, getFirestore, getDocs, setDoc } from "firebase/firestore";
+import { predicitionFromSymptomsRoute } from '../config'
 
 const db = getFirestore();
 
@@ -38,10 +37,13 @@ function PatientNoteScreen(props) {
     }
 
     const handleNoteChange = (note) => {
-        if (!(note.includes(" "))) {
-            return;
-        }
+        if(!note) return;
+        // if (!(note.includes(" "))) {
+        //     return;
+        // }
 
+
+        console.log(note)
         // one word symptom
         let noteArr = note.split(" ");
         for (let word of noteArr) {
@@ -54,13 +56,13 @@ function PatientNoteScreen(props) {
         if (noteArr.length === 0) {
             return
         }
-        for (let word of noteArr) {
-            if (symptoms_list.indexOf(word.toLowerCase()) !== -1 && symptoms.indexOf(word.toLowerCase()) === -1) {
-                setSymptoms([...symptoms, word])
-            }
-        }
 
-        console.log(symptoms);
+        symptoms_list.forEach(symptom => {
+            if(note.indexOf(symptom) !== -1){
+                setSymptoms(Array.from(new Set([...symptoms, symptom])))
+            }
+        })
+        console.log('symptoms', symptoms);
         const ref = doc(db, 'users', loc.pathname.split("/")[2], 'patients', loc.pathname.split("/")[3]);
         setDoc(ref, { symptoms: symptoms }, { merge: true });
     }
@@ -93,22 +95,19 @@ function PatientNoteScreen(props) {
             let symptom_order = onlyFiveSymptoms[i];
             switch (i) {
                 case 0:
-                    api_get_link =
-                        "INPUT API KEY HERE" + // Removed API endpoint for security reasons
-                        symptom_order;
-
+                    api_get_link = api_get_link + "sym1=" + symptom_order;
                     break;
                 case 1:
-                    api_get_link = api_get_link + "&s2=" + symptom_order;
+                    api_get_link = api_get_link + "&sym2=" + symptom_order;
                     break;
                 case 2:
-                    api_get_link = api_get_link + "&s3=" + symptom_order;
+                    api_get_link = api_get_link + "&sym3=" + symptom_order;
                     break;
                 case 3:
-                    api_get_link = api_get_link + "&s4=" + symptom_order;
+                    api_get_link = api_get_link + "&sym4=" + symptom_order;
                     break;
                 case 4:
-                    api_get_link = api_get_link + "&s5=" + symptom_order;
+                    api_get_link = api_get_link + "&sym5=" + symptom_order;
                     break;
             }
         }
@@ -117,37 +116,40 @@ function PatientNoteScreen(props) {
         }
     };
 
-    const ipfsHandler = async () => {
-        const client = create('https://ipfs.infura.io:5001')
-        const { cid } = await client.add(symptoms)
-        console.log(cid._baseCache)
-    }
-
+ 
     const handlePrediction = (e) => {
-
-        ipfsHandler()
-
-
 
         e.preventDefault()
         let test = getPredictionLink(symptoms);
-        axios.get('https://cors-anywhere.herokuapp.com/' + test.api_get_link, {
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'origin': 'localhost'
-            }
+        fetch(predicitionFromSymptomsRoute+ "?" + test.api_get_link, {
+            method: 'POST'
         })
+        .then(e => e.json())
             .then(function (response) {
                 // handle success
-                let predicted_diseases = Object.values(response.data)
+                let predicted_diseases = Object.values(response)
 
                 let predicted_diseases_underscored = []
                 predicted_diseases.forEach(
                     (element) => predicted_diseases_underscored.push(element.split(" ").join("_"))
                 );
                 let prediction = predicted_diseases_underscored.join('-')
+                
+                const keys=[
+                    "Precaution_1",
+                    "Precaution_2",
+                    "Precaution_3",
+                    "Precaution_4",
+                ]
+                const precautions=keys.map(e => {
+                    const val=response[e];
+                    if(val){
+                        return val.split(" ").join("_")
+                    }
+                    return ""
+                }).filter(e => e.length!==0).join('-')
 
-                history.push(`/patient-predict-diagnosis/${loc.pathname.split("/")[2]}/${loc.pathname.split("/")[3]}/${prediction}`)
+                history.push(`/patient-predict-diagnosis/${loc.pathname.split("/")[2]}/${loc.pathname.split("/")[3]}/${prediction}ERDNUSSE${precautions}`)
             })
             .catch(function (error) {
                 // handle error
@@ -158,16 +160,9 @@ function PatientNoteScreen(props) {
     if (patient !== undefined) {
         return (
             <Container>
-                <div className="absolute w-full h-full bg-headingblue z-10"></div>
-                <div className="content absolute top-0 left-0 w-full h-full z-30 font-lato ">
-                    <div className=" mt-16 flex flex-col justify-center items-center ">
-                        <ScrollArea speed={0.4}
-                            className="roun rounded-3xl"
-                            contentClassName="content"
-                            style={{ height: '804px', width: '402px' }}
-                            horizontal={false}
-                            vertical={true}
-                        >
+                <div className="card-bg">
+                    <div className="flex flex-col justify-center items-center ">
+                      
                             <div className="">
                                 <div className="   ">
 
@@ -175,20 +170,18 @@ function PatientNoteScreen(props) {
                                         <div className="pr-6"><i className="fas fa-chevron-left text-4xl  "></i></div>
 
                                         <div className="flex flex-col flex-1 justify-center items-start">
-                                            <h1 className=" font-semibold " style={{ fontSize: '32px' }}>Patient notes</h1>
-
+                                            <h1 className="text-3xl text-gray-300 font-semibold">Patient notes</h1>
                                         </div>
                                         <div className=" pr-3">
                                             <img src={bellwhite} alt="" className="" />
                                         </div>
                                     </button>
 
+                                    <div className="flex flex-row pl-4 items-center w-full my-5 text-gray-400  ">
 
-
-                                    <div className="flex flex-row pl-4 items-center w-full my-5 text-white font-lato ">
-
-                                        <div className=" bg-gray-100 w-20 h-20 rounded-full flex justify-center items-center mr-8">
-                                            <i className="far fa-user text-3xl text-headingblue"></i>
+                                        <div className="w-32 rounded-full flex justify-center items-center mr-8">
+                                            {/* <i className="far fa-user text-3xl text-headingblue"></i> */}
+                                            <img src='/Saly-12.png' className='w-full '/>
                                         </div>
                                         <div className="flex flex-col">
                                             <h1 className=" font-medium  " style={{ fontSize: '26px' }}>{patient.name}</h1>
@@ -204,15 +197,13 @@ function PatientNoteScreen(props) {
 
 
                                     {/*Inputing/adding  Notes */}
-                                    <div className="bg-bggray">
-
+                                    <div className="">
                                         <SpeechToText note={note} setNote={setNote} doctorId={loc.pathname.split("/")[2]} patientId={loc.pathname.split("/")[3]} handleNoteChange={handleNoteChange} handleDiagnosis={handlePrediction} />
                                     </div>
 
 
                                 </div>
                             </div>
-                        </ScrollArea>
 
                     </div >
                 </div >

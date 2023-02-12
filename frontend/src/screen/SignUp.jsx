@@ -24,7 +24,7 @@ function SignUp() {
         }
         createUserWithEmailAndPassword(auth, email.value, password.value)
             .then(async (userCredential) => {
-                alert("You have succsefully signed up!!");
+                alert("You have successfully signed up!!");
                 // save this in the database
                 try {
                     const docRef = await addDoc(collection(db, "users"), {
@@ -60,9 +60,9 @@ function SignUp() {
 
     return (
         <Container>
-            <div className="bg-gray-100 h-full flex flex-col place-items-center place-content-center overflow-scroll" style={{height:"865px"}}>
+            <div className="card-bg h-full flex flex-col place-items-center place-content-center">
             <img src={SignUpImage} alt="" className="mb-4 mt-28 w-3/5"/>
-            <h1 className="text-5xl font-bold text-center w-1/2 mb-8" style={{ color: '#30429E' }}>Sign Up</h1>
+            <h1 className="text-4xl font-bold text-center w-1/2 mb-8 text-gray-200">Sign Up</h1>
             <div className="flex flex-col justify-center items-center z-40" >
             <form action="" className="flex flex-col justify-center" onSubmit={handleSubmit}>
                 <div className="flex flex-row place-items-center place-content-center mb-4 px-4 py-2 rounded-lg text-lg text-gray-500 bg-white">
@@ -89,16 +89,16 @@ function SignUp() {
                 </svg>
                 <input className="focus:bg-white" style={{ width: '280px' }} type="password" name="confirmPassword" id="" placeholder="Confirm Password" />
                 </div> 
-                <button type="submit" className="bg-blue-700 text-2xl text-white rounded-xl p-4 w-full mt-4"> Sign up</button>  
+                <button type="submit" className="bg-gray-600 text-xl text-white rounded-xl p-4 w-full mt-4"> Sign up</button>  
                 </form>
                 <div className="mb-8 flex flex-col rounded-md justify-center items-center" style={{ fontSize: '18px' }}>
-                    <p className="text-xl text-blue-800 mt-8"> Sign in with </p>
+                    <p className="text-xl text-gray-400 mt-8"> Sign in with </p>
                     <div className="flex flex-row justify-between items-center mt-4">
                         <img src={FacebookLogo} alt="sign in with facebook" className="w-12 h-12" />
                         <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="sign in with google" className="w-12 h-12 ml-6" />
                     </div>
                 </div>
-                <p className="text-xl text-blue-800 mb-8">Already have an account? <span className="font-base text-blue-800 underline">Sign in</span></p>
+                <p className="text-lg text-gray-400 mb-8">Already have an account? <span className="font-base text-gray-400 underline"><a href="/login">Sign in</a></span></p>
                 </div>
             </div>
         </Container >

@@ -17,7 +17,7 @@ import diagnose2 from '../images/diagnose2.png'
 function InputNotes() {
     return (
         <>
-            <div className="relative z-40 bg-white w-full rounded-t-3xl px-4 py-3 font-lato">
+            <div className="relative z-40 bg-white w-full rounded-t-3xl px-4 py-3 ">
                 <form action="">
 
                     <div className="flex flex-row justify-between items-center mb-4">

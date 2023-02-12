@@ -20,7 +20,7 @@ import { useHistory } from 'react-router-dom';
 function PatientNotes(props) {
     const history = useHistory();
     return (
-        <div className={` ${props.bgDimmedColor ? 'bg-bggreen' : 'bg-pgray'} rounded-t-3xl px-4 ${props.textColor ? props.textColor : 'text-headingblue'}  font-poppins`}>
+        <div className={` ${props.bgDimmedColor ? 'bg-gray-800' : 'bg-gray-800'} text-gray-400 rounded-t-3xl px-4 font-poppins`}>
             <h1 className="text-xl font-semibold pt-8 pb-4">Patient Notes</h1>
 
 
@@ -94,23 +94,23 @@ function PatientNotes(props) {
                 </div>
 
                 {/* Symptoms list*/}
-                <div className="symptoms  w-full py-4 px-4 rounded-xl bg-white mt-2">
+                <div className="symptoms w-full py-4 px-4 rounded-xl border border-gray-300 mt-2">
 
                     <div className="flex flex-row w-full justify-between items-center">
-                        <h1 className="text-xl font-semibold">Symptoms</h1>
+                        <h1 className="text-xl font-semibold text-gray-300">Symptoms</h1>
                         <i className="fas fa-plus text-xl"></i>
 
                     </div>
 
 
 
-                    <div className={`text-lg mt-2 flex flex-row flex-wrap justify-center items-center space-y-1 `}>
+                    <div className={`grid grid-cols-3 gap-2 mt-2`}>
 
 
 
                         {props.symptoms.map((s) => {
                             return (
-                                <div className={`flex flex-row py-1 px-1 items-center justify-center text-white ${props.bgColor ? 'bg-headinggreen' : 'bg-headingblue'} mx-1 rounded-3xl`}>
+                                <div className={`flex flex-row py-1 text-sm px-2 items-center justify-center text-white ${props.bgColor ? 'bg-headinggreen' : 'bg-headingblue'} mx-1 rounded-3xl`}>
                                     <p>{s}</p>
                                     <i className="fas fa-times ml-1 text-base"></i>
                                 </div>
@@ -123,17 +123,16 @@ function PatientNotes(props) {
 
 
                 {/* Medical history */}
-                <div className="medical_history  w-full py-4 px-4 bg-white rounded-2xl my-4">
+                <div className="medical_history  w-full py-4 px-4 border border-gray-300 rounded-2xl my-4">
                     <div className="flex flex-row w-full justify-between items-center">
-                        <h1 className="text-xl font-semibold">Medical History</h1>
+                        <h1 className="text-xl font-semibold text-gray-300">Medical History</h1>
                         <i className="fas fa-plus text-xl"></i>
 
                     </div>
-                    <div className="grid grid-cols-3 text-lg mt-2">
+                    <div className="grid grid-cols-3 gap-2 text-lg mt-2">
                         {props.patient.medical_history !== "" && props.patient.medical_history.map((his) => {
                             return (
-                                <div className={`flex flex-row py-1 items-center justify-center text-white ${props.bgColor ? 'bg-headinggreen' : 'bg-headingblue'} mx-1 rounded-3xl`}>
-
+                                <div className={`flex flex-row text-sm py-1 items-center justify-center text-white ${props.bgColor ? 'bg-headinggreen' : 'bg-headingblue'} mx-1 rounded-3xl`}>
                                     <p>{his}</p>
                                     <i className="fas fa-times ml-1 text-base"></i>
                                 </div>

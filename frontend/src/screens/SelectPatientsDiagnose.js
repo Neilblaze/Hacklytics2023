@@ -1,6 +1,5 @@
 import React from 'react'
 import Container from '../components/Container'
-import ScrollArea from 'react-scrollbar'
 import profilepic from '../images/profilepic.png'
 import bellgreen from '../images/bellgreen.png'
 import SearchPanel from '../components/SearchPanel'
@@ -13,18 +12,11 @@ function SelectPatientsDiagnose() {
     
     return (
         <Container>
-            <div className="absolute w-full h-full bg-bggreen z-10"></div>
+            {/* <div className="absolute w-full h-full bg-bggreen z-10"></div> */}
 
-            <div className="content absolute top-0 left-0 w-full h-full z-30 font-lato ">
+            <div className="card-bg">
 
-                <div className="w-full px-12 mt-16 flex flex-col justify-center items-center ">
-                    <ScrollArea speed={0.4}
-                        className="w-full"
-                        contentClassName="content"
-                        style={{ height: '780px' }}
-                        horizontal={false}
-                        vertical={true}
-                    >
+                <div className="w-full flex flex-col justify-center items-center ">
                         <div className="">
                             <div className="   ">
 
@@ -40,6 +32,8 @@ function SelectPatientsDiagnose() {
                                     </div>
                                 </div>
 
+                                <img src='/Saly-10.svg' className='w-7/12 mb-10 mx-auto'/>
+
 
                                 {/* Search panel with filter icon */}
                                 <SearchPanel color="text-headinggreen" />
@@ -51,7 +45,6 @@ function SelectPatientsDiagnose() {
 
                         </div>
 
-                    </ScrollArea>
 
                 </div>
             </div>

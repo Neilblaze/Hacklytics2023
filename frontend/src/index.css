@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+body{
+    font-family: 'Poppins' !important;
+    background: #050a20;
+}
+
+.card-bg{
+    background: hsla(0,0%,85%,.105);
+    max-width: 500px;
+    width: 90%;
+    margin: 20px auto;
+    border-radius: 20px;
+    padding: 20px;
+    @apply border-gray-700 border;
+}
