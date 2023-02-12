@@ -5,3 +5,5 @@ numpy
 sklearn
 openai-whisper
 ffmpeg-python
+Flask-Cors
+jsonschema
