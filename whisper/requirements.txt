@@ -1,9 +1,0 @@
-pandas
-torch
-transformers
-numpy
-sklearn
-openai-whisper
-ffmpeg-python
-Flask-Cors
-jsonschema
