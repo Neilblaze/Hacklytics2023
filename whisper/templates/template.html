@@ -1,0 +1,30 @@
+<!-- <!doctype html>
+<html>
+  <head>
+    <title>Transcription</title>
+  </head>
+  <body>
+    {% if transcription %}
+      <p>{{ transcription }}</p>
+    {% else %}
+      <p>Please upload an audio file for transcription</p>
+    {% endif %}
+  </body>
+</html> -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Transcribe text</title>
+  </head>
+  <body>
+    <h1>Transcribe text</h1>
+    <form method="post" enctype="multipart/form-data">
+      <input type="file" name="file">
+      <input type="submit" value="Upload">
+    </form>
+    {% if transcription %}
+      <h2>Result</h2>
+      <p>{{ transcription }}</p>
+    {% endif %}
+  </body>
+</html>
