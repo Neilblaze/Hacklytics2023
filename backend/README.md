@@ -2,9 +2,11 @@
 
 API Docs :
 
-- https://localhost:5000/ or `...5000/root` => 200 OK
+- http://localhost:5000/ or `...5000/root` => 200 OK
 
-- https://localhost:5000/result  => Bad Request (500)
+- http://localhost:5000/result  => Bad Request (500)
+
+- http://localhost:5000/transcribe  => [Body -> form-data : {Key: "file", Value: "audio_file"}] → ExampleResponse : `{"transcription":"Hello World!"}` 
 
 - http://localhost:5000/result?sym1=cough&sym2=itching&sym3=none&sym4=none&sym5=none => [With Disease]
 

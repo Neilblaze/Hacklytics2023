@@ -1,18 +1,55 @@
-from flask import Flask, request
+import flask
+from flask import Flask, request, render_template
 from flask import jsonify
 from flask_cors import CORS
 import pandas as pd
 import numpy as np
 import json
+from tempfile import NamedTemporaryFile
+import whisper
 
 
 app = Flask(__name__)
 CORS(app)
+model = whisper.load_model("small")
 
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/root", methods=['GET', 'POST'])
 def root():
     return "HealthifAI  |  Server 200 OK!"
+
+# (Transcribe // Whisper - OpenAI)  ---------------------------------------------------------------------------
+
+def inference(audio):
+    audio = whisper.load_audio(audio)
+    audio = whisper.pad_or_trim(audio)
+    
+    mel = whisper.log_mel_spectrogram(audio).to(model.device)
+    _, probs = model.detect_language(mel)    
+    options = whisper.DecodingOptions(fp16 = False, task = "translate")
+    result = whisper.decode(model, mel, options) 
+    print(result.text)
+    
+    return result.text
+
+
+@app.route("/transcribe", methods=["GET", "POST"])
+def transcribe():
+    print("hello")
+    if request.method == "POST":
+        print(request.files, "req1")
+        file = request.files["file"]
+        with NamedTemporaryFile(suffix="mp3") as temp:
+            temp.write(file.read())
+            temp.seek(0)
+            transcription = inference(temp.name)
+            print("hi")
+        return jsonify({"transcription": transcription})
+
+    return jsonify({"error": "No file found in the request."})
+
+#  (Disease Prediction API)  ----------------------------------------------------------------------------------
+
 
 @app.route("/result", methods=['GET', 'POST']) 
 def result():
@@ -257,4 +294,4 @@ def d3data():
     return jsonify(responsex1)
 
 if __name__ == "__main__":
-    app.run
+    app.run(debug=True)
