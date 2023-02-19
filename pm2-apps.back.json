@@ -1,0 +1,15 @@
+{
+    "apps": [
+      {
+        "name": "backend",
+        "script": "gunicorn -b 0.0.0.0:5000 backend.app:app",
+        "watch": false
+
+      },
+      {
+        "name": "frontend",
+        "cwd": "./frontend",
+        "script": "npx serve -s build"
+      }
+    ]
+  }
