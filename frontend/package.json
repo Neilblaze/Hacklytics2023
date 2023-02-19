@@ -20,6 +20,7 @@
   },
   "scripts": {
     "start": "NODE_OPTIONS=--openssl-legacy-provider && craco start",
+    "serve": "NODE_OPTIONS=--openssl-legacy-provider && serve  -s build",
     "build": "NODE_OPTIONS=--openssl-legacy-provider && craco build",
     "test": "craco test",
     "eject": "react-scripts eject"

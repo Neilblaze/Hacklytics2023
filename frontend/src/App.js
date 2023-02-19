@@ -3,7 +3,6 @@ import SignUp from "./screen/SignUp";
 import { app } from './firebaseConfig';
 import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom';
 import { AuthProvider } from "./Auth";
-import { getAuth, signOut } from "firebase/auth";
 import Test from "./components/Test";
 import PatientNoteScreen from "./screens/PatientNoteScreen";
 import SelectPatientsNotes from "./screens/SelectPatientsNotes";
@@ -13,18 +12,17 @@ import PatientDiagnosisScreen from "./screens/PatientDiagnosisScreen";
 import AddPatient from "./screens/AddPatient";
 import HomePageScreen from "./screens/HomePageScreen";
 import HeartBeatScreen from "./screens/HeartBeat";
+import { Landing } from "./screens/Landing";
 
 function App() {
-  const auth = getAuth();
-  const user = auth.currentUser;
-
   return (
     <AuthProvider>
       <div className="App">
         <BrowserRouter>
           <Switch>
             <Route exact path='/'>
-              {user ? <div><p> {`signed in as ${user.email}`}</p><button className="bg-blue-700 text-2xl text-white rounded-xl p-4 w-full mt-4" onClick={() => { signOut(auth); alert("refresh page") }}>Sign Out</button></div> : <p>No user found. go to /signup</p>}
+
+              <Landing />
             </Route>
 
 
@@ -105,3 +103,7 @@ function App() {
 }
 
 export default App;
+
+
+
+
